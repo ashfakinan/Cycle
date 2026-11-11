@@ -1,0 +1,92 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile and personal settings",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 128 },
+        "displayName": { "type": "string", "maxLength": 100 },
+        "email": { "type": "string", "maxLength": 200 },
+        "timezone": { "type": "string", "maxLength": 50 },
+        "theme": { "type": "string", "enum": ["light", "dark"], "maxLength": 10 },
+        "notificationsEnabled": { "type": "boolean" },
+        "reminderTime": { "type": "string", "maxLength": 10 },
+        "weekStartsOn": { "type": "string", "enum": ["sunday", "monday"], "maxLength": 10 },
+        "createdAt": { "type": "string", "maxLength": 50 },
+        "updatedAt": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["userId", "displayName", "timezone", "theme"]
+    },
+    "Cycle": {
+      "title": "Cycle",
+      "description": "Completion-based repeating sequence of activities",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 100 },
+        "status": { "type": "string", "enum": ["active", "paused", "archived"], "maxLength": 20 },
+        "repeat": { "type": "boolean" },
+        "activities": { "type": "array" },
+        "order": { "type": "number" },
+        "createdAt": { "type": "string", "maxLength": 50 },
+        "updatedAt": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["id", "userId", "name", "status", "repeat", "activities"]
+    },
+    "WeeklyRoutine": {
+      "title": "WeeklyRoutine",
+      "description": "Calendar-based weekly schedule with fixed weekdays",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 100 },
+        "status": { "type": "string", "enum": ["active", "paused", "archived"], "maxLength": 20 },
+        "activities": { "type": "array" },
+        "order": { "type": "number" },
+        "createdAt": { "type": "string", "maxLength": 50 },
+        "updatedAt": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["id", "userId", "name", "status", "activities"]
+    },
+    "ActivityRecord": {
+      "title": "ActivityRecord",
+      "description": "Daily status record for an activity instance",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "date": { "type": "string", "maxLength": 20 },
+        "type": { "type": "string", "enum": ["cycle", "routine"], "maxLength": 20 },
+        "scheduleId": { "type": "string", "maxLength": 128 },
+        "scheduleName": { "type": "string", "maxLength": 100 },
+        "activityId": { "type": "string", "maxLength": 128 },
+        "activityName": { "type": "string", "maxLength": 100 },
+        "status": { "type": "string", "enum": ["completed", "not_done", "unconfirmed"], "maxLength": 20 },
+        "createdAt": { "type": "string", "maxLength": 50 },
+        "updatedAt": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["id", "userId", "date", "type", "scheduleId", "activityId", "activityName", "status"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "User profile and personal settings"
+    },
+    "/users/{userId}/cycles/{cycleId}": {
+      "schema": { "$ref": "#/entities/Cycle" },
+      "description": "User completion-based cycles"
+    },
+    "/users/{userId}/routines/{routineId}": {
+      "schema": { "$ref": "#/entities/WeeklyRoutine" },
+      "description": "User calendar-based weekly routines"
+    },
+    "/users/{userId}/records/{recordId}": {
+      "schema": { "$ref": "#/entities/ActivityRecord" },
+      "description": "User daily activity check-in records"
+    }
+  }
+}

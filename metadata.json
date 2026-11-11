@@ -1,0 +1,6 @@
+{
+  "name": "Cycle — Personal Study & Routine Manager",
+  "description": "Flexible cycle management and recurring weekly routine tracker with completion-based advancement and offline sync.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

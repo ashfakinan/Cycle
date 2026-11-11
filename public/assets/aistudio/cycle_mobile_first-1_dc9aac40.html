@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f7f8f5">
+<title>Cycle — Personal study rhythm</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap');
+:root{--bg:#f7f8f5;--surface:#fff;--surface-2:#f1f3ef;--text:#202720;--muted:#7d877d;--line:#e6eae3;--accent:#47765c;--accent-soft:#eaf2ec;--accent-dark:#315840;--amber:#a97935;--amber-soft:#f7f0e4;--red:#a75d56;--red-soft:#f7ecea;--shadow:0 12px 35px rgba(32,39,32,.09);--radius:10px}
+[data-theme="dark"]{--bg:#171c19;--surface:#202722;--surface-2:#29312b;--text:#edf1eb;--muted:#9ba79b;--line:#343e36;--accent:#8bb99a;--accent-soft:#293b30;--accent-dark:#a8d0b4;--amber:#d2a96a;--amber-soft:#3a3022;--red:#d18a82;--red-soft:#3b2928;--shadow:0 12px 35px rgba(0,0,0,.25)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px/1.5 'DM Sans',sans-serif;letter-spacing:-.01em}button,input,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}.app{min-height:100vh}.sidebar{width:228px;position:fixed;inset:0 auto 0 0;background:var(--surface);border-right:1px solid var(--line);padding:25px 15px 17px;display:flex;flex-direction:column;z-index:10}.brand{display:flex;align-items:center;gap:10px;padding:0 10px 35px;font:700 18px Manrope,sans-serif;letter-spacing:-.04em}.brand-mark{width:26px;height:26px;border-radius:8px;background:var(--accent);display:grid;place-items:center;color:white}.brand-mark svg{width:16px}.nav-label{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);padding:0 11px;margin:9px 0 8px}.nav{display:grid;gap:3px}.nav button{display:flex;align-items:center;gap:12px;border:0;background:transparent;color:var(--muted);padding:10px 11px;border-radius:7px;text-align:left;font-weight:500;transition:.15s}.nav button:hover{background:var(--surface-2);color:var(--text)}.nav button.active{background:var(--accent-soft);color:var(--accent-dark);font-weight:600}.nav svg{width:17px;height:17px;stroke-width:1.8}.side-bottom{margin-top:auto}.profile{display:flex;align-items:center;gap:10px;padding:14px 9px 7px;border-top:1px solid var(--line);margin-top:18px}.avatar{width:31px;height:31px;border-radius:50%;background:#e6d8c5;color:#67543c;display:grid;place-items:center;font-weight:700;font-size:11px}.profile strong{display:block;font-size:12px}.profile small{color:var(--muted);font-size:11px}.theme-btn{margin:0 5px 10px;width:calc(100% - 10px);border:1px solid var(--line);background:transparent;color:var(--muted);padding:8px;border-radius:7px;text-align:left;display:flex;gap:9px;align-items:center}.theme-btn svg{width:15px}
+.main{margin-left:228px;max-width:1500px;padding:38px 48px 60px}.topbar{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:32px}.eyebrow{color:var(--muted);font-size:12px;margin-bottom:5px}.page-title{font:700 27px/1.2 Manrope,sans-serif;letter-spacing:-.045em;margin:0}.top-actions{display:flex;align-items:center;gap:10px}.date-pill{color:var(--muted);font-size:12px;padding:8px 11px;border:1px solid var(--line);border-radius:7px;background:var(--surface)}.mobile-menu{display:none}.btn{border:1px solid var(--line);background:var(--surface);color:var(--text);padding:8px 12px;border-radius:7px;font-weight:600;font-size:12px;transition:.15s}.btn:hover{background:var(--surface-2)}.btn.primary{background:var(--accent);border-color:var(--accent);color:white}.btn.primary:hover{background:var(--accent-dark)}.btn.ghost{border-color:transparent;background:transparent;color:var(--muted)}.btn.danger{color:var(--red)}.section-head{display:flex;justify-content:space-between;align-items:center;margin:0 0 13px}.section-head h2{font:700 14px Manrope,sans-serif;margin:0;letter-spacing:-.02em}.section-head p{color:var(--muted);font-size:11px;margin:3px 0 0}.dashboard-grid{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(290px,.9fr);gap:34px}.today-list{border-top:1px solid var(--line)}.activity{display:grid;grid-template-columns:4px minmax(0,1fr) auto;gap:13px;align-items:center;padding:15px 2px;border-bottom:1px solid var(--line)}.activity-bar{height:33px;border-radius:4px;background:var(--accent)}.activity-bar.weekly{background:#9aa58d}.activity-bar.pending{background:#c7a56d}.activity-name{font-weight:600;font-size:13px}.activity-meta{font-size:11px;color:var(--muted);margin-top:3px}.status{border:1px solid var(--line);background:var(--surface);color:var(--muted);font-size:11px;padding:6px 9px;border-radius:6px;min-width:112px}.status.completed{background:var(--accent-soft);border-color:transparent;color:var(--accent-dark)}.status.not-done{background:var(--red-soft);border-color:transparent;color:var(--red)}.status.unconfirmed{background:var(--amber-soft);border-color:transparent;color:var(--amber)}.subsection{margin-top:32px}.cycle-row{padding:14px 0;border-bottom:1px solid var(--line)}.cycle-top{display:flex;justify-content:space-between;align-items:center}.cycle-title{font-weight:600;font-size:13px}.cycle-count{font-size:11px;color:var(--muted)}.progress{height:5px;background:var(--surface-2);border-radius:9px;margin:10px 0 8px;overflow:hidden}.progress span{height:100%;display:block;background:var(--accent);border-radius:9px;transition:width .25s}.cycle-foot{display:flex;justify-content:space-between;color:var(--muted);font-size:11px}.cycle-foot strong{color:var(--accent-dark);font-weight:600}.right-panel{min-width:0}.week-strip{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-top:14px}.day{border:1px solid var(--line);border-radius:7px;background:var(--surface);padding:9px 3px;text-align:center;min-width:0}.day .dow{font-size:9px;color:var(--muted);text-transform:uppercase}.day .num{font-weight:700;font-size:13px;margin:4px 0 7px}.day.today{border-color:var(--accent);background:var(--accent-soft)}.dots{display:flex;justify-content:center;gap:3px;height:5px}.dot{width:5px;height:5px;border-radius:50%;background:var(--accent)}.dot.pending{background:#c7a56d}.dot.red{background:var(--red)}.quick-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:13px}.quick-actions button{display:flex;align-items:center;gap:8px;text-align:left;padding:11px 10px;font-size:11px}.quick-actions svg{width:15px;color:var(--accent)}.note{font-size:11px;color:var(--muted);margin-top:12px;line-height:1.6}.page{display:none}.page.active{display:block}.toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px}.tabs{display:flex;background:var(--surface-2);padding:3px;border-radius:8px;gap:2px}.tabs button{border:0;background:transparent;color:var(--muted);padding:6px 11px;border-radius:6px;font-size:11px}.tabs button.active{background:var(--surface);color:var(--text);box-shadow:0 1px 2px #0000000c}.calendar-wrap{background:var(--surface);border:1px solid var(--line);border-radius:9px;overflow:hidden}.cal-head{display:flex;align-items:center;justify-content:space-between;padding:14px 17px;border-bottom:1px solid var(--line)}.cal-head strong{font:700 14px Manrope}.cal-nav{display:flex;gap:5px}.icon-btn{width:29px;height:29px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--muted);display:grid;place-items:center}.icon-btn svg{width:14px}.month-grid{display:grid;grid-template-columns:repeat(7,1fr)}.month-grid .weekday{padding:10px 12px;color:var(--muted);font-size:10px;border-bottom:1px solid var(--line)}.date-cell{min-height:92px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:9px;cursor:pointer;transition:.12s}.date-cell:nth-child(7n){border-right:0}.date-cell:hover{background:var(--surface-2)}.date-cell.selected{background:var(--accent-soft);box-shadow:inset 0 0 0 1px var(--accent)}.date-cell.muted{opacity:.4}.date-num{font-size:11px;font-weight:600}.date-cell.today .date-num{color:var(--accent-dark)}.event-chip{display:block;margin-top:5px;padding:3px 5px;border-radius:4px;background:var(--accent-soft);color:var(--accent-dark);font-size:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.event-chip.pending{background:var(--amber-soft);color:var(--amber)}.event-chip.red{background:var(--red-soft);color:var(--red)}.selected-detail{margin-top:18px;padding:15px 0;border-top:1px solid var(--line)}.selected-detail h3{font:700 13px Manrope;margin:0 0 9px}.empty{padding:35px 15px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:8px;font-size:12px}.entity-list{border-top:1px solid var(--line)}.entity{display:grid;grid-template-columns:minmax(0,1fr) 190px auto;gap:20px;align-items:center;padding:18px 3px;border-bottom:1px solid var(--line)}.entity h3{font-size:14px;margin:0 0 4px}.entity p{font-size:11px;color:var(--muted);margin:0}.entity-progress{min-width:0}.entity-actions{display:flex;gap:5px}.mini-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}.routine-days{display:flex;gap:4px;margin-top:9px}.weekday-pill{font-size:9px;color:var(--muted);background:var(--surface-2);padding:4px 6px;border-radius:4px}.weekday-pill.on{background:var(--accent-soft);color:var(--accent-dark)}.analytics-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:27px}.metric{padding:15px 16px;background:var(--surface);border:1px solid var(--line);border-radius:8px}.metric .label{font-size:10px;color:var(--muted)}.metric strong{display:block;font:700 24px Manrope;margin:5px 0 2px;letter-spacing:-.04em}.metric small{font-size:10px;color:var(--accent)}.chart-panel{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px;margin-bottom:20px}.chart-panel h3{font:700 13px Manrope;margin:0}.chart{height:170px;display:flex;align-items:end;gap:12px;padding:17px 5px 0;border-bottom:1px solid var(--line)}.bar-col{flex:1;height:100%;display:flex;flex-direction:column;justify-content:end;align-items:center;gap:7px}.bar{width:min(100%,28px);background:#8aa991;border-radius:4px 4px 0 0;min-height:3px}.bar-col span{font-size:9px;color:var(--muted)}.history{width:100%;border-collapse:collapse;font-size:11px}.history th{text-align:left;color:var(--muted);font-weight:500;padding:10px;border-bottom:1px solid var(--line)}.history td{padding:11px 10px;border-bottom:1px solid var(--line)}.settings-layout{display:grid;grid-template-columns:180px minmax(0,650px);gap:40px}.settings-nav{display:grid;align-content:start;gap:3px}.settings-nav button{text-align:left;border:0;background:transparent;color:var(--muted);padding:9px;border-radius:6px;font-size:12px}.settings-nav button.active{background:var(--accent-soft);color:var(--accent-dark)}.settings-section{border-bottom:1px solid var(--line);padding:0 0 22px;margin-bottom:22px}.settings-section h3{font:700 13px Manrope;margin:0 0 4px}.settings-section>p{font-size:11px;color:var(--muted);margin:0 0 16px}.field{display:grid;grid-template-columns:150px 1fr;align-items:center;gap:15px;margin:12px 0}.field label{font-size:11px;color:var(--muted)}.field input,.field select,.modal input,.modal select{width:100%;border:1px solid var(--line);border-radius:6px;padding:9px 10px;background:var(--surface);color:var(--text);font-size:12px}.switch-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;font-size:12px}.switch{width:34px;height:19px;border-radius:20px;background:var(--line);border:0;padding:2px}.switch:after{content:"";display:block;width:15px;height:15px;border-radius:50%;background:white;transition:.15s}.switch.on{background:var(--accent)}.switch.on:after{transform:translateX(15px)}.modal-backdrop{position:fixed;inset:0;background:#17201970;z-index:30;display:none;align-items:center;justify-content:center;padding:18px}.modal-backdrop.open{display:flex}.modal{width:min(480px,100%);background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);padding:22px}.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.modal-head h2{font:700 17px Manrope;margin:0}.modal-close{border:0;background:transparent;color:var(--muted);font-size:20px}.modal-field{margin:13px 0}.modal-field label{display:block;font-size:11px;color:var(--muted);margin-bottom:6px}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:22px}.sequence-editor{display:grid;gap:8px}.sequence-item{display:flex;gap:8px;align-items:center}.sequence-item input{flex:1}.sequence-item button{border:0;background:transparent;color:var(--muted)}.checks{display:flex;flex-wrap:wrap;gap:7px}.check-day{display:flex;align-items:center;gap:5px;border:1px solid var(--line);padding:6px 8px;border-radius:6px;font-size:10px;color:var(--muted)}.check-day input{accent-color:var(--accent)}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(20px);opacity:0;background:var(--text);color:var(--bg);padding:9px 14px;border-radius:7px;font-size:11px;z-index:50;transition:.2s;pointer-events:none}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(max-width:1050px){.main{padding:32px 28px}.dashboard-grid{grid-template-columns:1fr}.right-panel{display:grid;grid-template-columns:1fr 1fr;gap:30px}.right-panel .subsection{margin-top:0}}
+@media(max-width:700px){.sidebar{width:250px;transform:translateX(-100%);transition:.2s;box-shadow:var(--shadow)}.sidebar.open{transform:translateX(0)}.main{margin:0;padding:22px 17px 45px}.mobile-menu{display:grid}.topbar{gap:10px;margin-bottom:25px}.topbar-left{display:flex;gap:11px;align-items:center}.page-title{font-size:23px}.date-pill{display:none}.top-actions .btn{padding:8px}.right-panel{display:block}.right-panel .subsection{margin-top:28px}.entity{grid-template-columns:1fr auto;gap:12px}.entity-progress{grid-column:1/-1;grid-row:2}.entity-actions{grid-column:2;grid-row:1}.analytics-grid{grid-template-columns:1fr 1fr}.settings-layout{grid-template-columns:1fr;gap:15px}.settings-nav{display:flex;overflow:auto}.settings-nav button{white-space:nowrap}.field{grid-template-columns:1fr;gap:5px}.date-cell{min-height:72px;padding:6px}.event-chip{font-size:8px}.month-grid .weekday{padding:8px 4px;text-align:center}.toolbar{flex-wrap:wrap}.toolbar>.btn{margin-left:auto}.activity{gap:9px}.status{min-width:100px}.quick-actions{grid-template-columns:1fr 1fr}}
+@media(max-width:390px){.main{padding-left:12px;padding-right:12px}.analytics-grid{gap:7px}.metric{padding:12px}.metric strong{font-size:20px}.date-cell{min-height:62px}.event-chip{padding:2px}.activity-name{font-size:12px}}
+
+/* Mobile-first interaction layer */
+.mobile-nav{display:none}
+@media(max-width:700px){
+ body{font-size:14px}
+ .sidebar{display:none}
+ .main{padding:18px 15px calc(94px + env(safe-area-inset-bottom));margin:0;width:100%}
+ .mobile-nav{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));position:fixed;z-index:20;left:0;right:0;bottom:0;padding:7px 5px calc(7px + env(safe-area-inset-bottom));background:var(--surface);border-top:1px solid var(--line);box-shadow:0 -5px 18px rgba(20,30,20,.05)}
+ .mobile-nav button{min-width:0;min-height:51px;border:0;border-radius:8px;background:transparent;color:var(--muted);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:9px;font-weight:600;padding:5px 1px}
+ .mobile-nav button svg{width:19px;height:19px;stroke-width:1.8}
+ .mobile-nav button.active{color:var(--accent-dark);background:var(--accent-soft)}
+ .mobile-menu{display:none}
+ .topbar{align-items:center;margin-bottom:22px}
+ .topbar-left{display:block}
+ .eyebrow{font-size:11px;margin-bottom:4px}
+ .page-title{font-size:22px;line-height:1.2}
+ .top-actions{gap:0}
+ .top-actions .btn{min-height:40px;padding:8px 11px;font-size:11px}
+ .section-head{align-items:flex-start}
+ .section-head h2{font-size:14px}
+ .activity{grid-template-columns:4px minmax(0,1fr) auto;gap:10px;padding:14px 0}
+ .activity-bar{height:38px}
+ .activity-name{font-size:13px}
+ .activity-meta{font-size:10px}
+ .status{min-width:104px;min-height:38px;padding:7px 8px;font-size:11px}
+ .dashboard-grid{gap:25px}
+ .right-panel{display:block}
+ .right-panel .subsection{margin-top:28px}
+ .week-strip{gap:4px}
+ .day{padding:9px 2px;min-height:70px}
+ .day .dow{font-size:9px}
+ .day .num{font-size:14px}
+ .quick-actions button{min-height:46px}
+ .entity{grid-template-columns:minmax(0,1fr) auto;gap:10px;padding:16px 0}
+ .entity h3{font-size:13px}
+ .entity-progress{grid-column:1/-1;grid-row:2}
+ .entity-actions{grid-column:1/-1;grid-row:3;display:flex;flex-wrap:wrap}
+ .entity-actions .btn{min-height:37px;flex:1}
+ .analytics-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ .metric{padding:13px}
+ .metric strong{font-size:21px}
+ .chart-panel{padding:14px 11px}
+ .chart{gap:6px;height:155px}
+ .bar-col span{font-size:8px;white-space:nowrap}
+ .history{min-width:480px}
+ .calendar-wrap{overflow-x:auto}
+ .month-grid{min-width:0}
+ .date-cell{min-width:0;min-height:65px;padding:5px 3px}
+ .date-num{font-size:10px}
+ .event-chip{font-size:7px;padding:2px 3px;margin-top:4px}
+ .month-grid .weekday{font-size:9px;padding:8px 1px}
+ .toolbar{gap:9px;margin-bottom:14px}
+ .toolbar>.btn{min-height:40px}
+ .tabs button{min-height:34px;padding:6px 10px}
+ .settings-layout{grid-template-columns:minmax(0,1fr);gap:12px}
+ .settings-nav{display:flex;overflow-x:auto;gap:4px;padding-bottom:4px;scrollbar-width:none}
+ .settings-nav button{min-height:38px;padding:8px 11px;background:var(--surface);border:1px solid var(--line)}
+ .settings-nav button.active{border-color:transparent}
+ .field{grid-template-columns:1fr;gap:6px}
+ .field input,.field select{min-height:42px}
+ .switch-row{min-height:45px}
+ .modal-backdrop{align-items:flex-end;padding:0}
+ .modal{width:100%;max-height:88dvh;overflow-y:auto;border-radius:16px 16px 0 0;padding:20px 18px calc(18px + env(safe-area-inset-bottom));border-bottom:0}
+ .modal-head{margin-bottom:15px}
+ .modal-head h2{font-size:16px}
+ .modal-field{margin:12px 0}
+ .modal input,.modal select{min-height:43px;font-size:13px}
+ .sequence-item button,.modal-close{min-width:36px;min-height:36px}
+ .check-day{min-height:36px;padding:7px 9px}
+ .modal-actions{position:sticky;bottom:-18px;background:var(--surface);padding:12px 0 2px}
+ .modal-actions .btn{min-height:42px;flex:1}
+}
+@media(max-width:380px){
+ .main{padding-left:12px;padding-right:12px}
+ .mobile-nav button{font-size:8px}
+ .mobile-nav button svg{width:18px;height:18px}
+ .top-actions .btn{font-size:10px;padding:7px 9px}
+ .status{min-width:96px;font-size:10px}
+ .activity{gap:7px}
+ .quick-actions{gap:6px}
+ .quick-actions button{padding:9px 7px;font-size:10px}
+ .date-cell{min-height:58px}
+}
+\n</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar" id="sidebar">
+  <div class="brand"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 17a7 7 0 1 1 14 0M12 3v4m-4-1 4 4 4-4"/></svg></span>cycle</div>
+  <div class="nav-label">Workspace</div>
+  <nav class="nav" id="mainNav">
+    <button class="active" data-page="dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="8" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="15" width="7" height="6" rx="1"/></svg>Dashboard</button>
+    <button data-page="calendar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>Calendar</button>
+    <button data-page="cycles"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M5.6 9A7 7 0 0 1 18 6l2 6M4 12l2 6a7 7 0 0 0 12.4-3"/></svg>My Cycles</button>
+    <button data-page="routines"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 5h16M4 12h16M4 19h16"/><path d="m8 3-4 2 4 2m8 3 4 2-4 2m-8 3-4 2 4 2"/></svg>Weekly Routines</button>
+    <button data-page="analytics"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 19V5m0 14h17"/><path d="m7 15 4-4 3 2 6-7"/></svg>Analytics</button>
+  </nav>
+  <div class="side-bottom">
+    <div class="nav-label">Preferences</div>
+    <nav class="nav"><button data-page="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="3"/><path d="m19.4 15 .1.1 1.4 1.1-1.4 2.4-1.7-.7a8 8 0 0 1-1.6.9l-.3 1.8h-2.8l-.3-1.8a8 8 0 0 1-1.6-.9l-1.7.7-1.4-2.4 1.4-1.1a8 8 0 0 1 0-1.9l-1.4-1.1 1.4-2.4 1.7.7a8 8 0 0 1 1.6-.9l.3-1.8h2.8l.3 1.8a8 8 0 0 1 1.6.9l1.7-.7 1.4 2.4-1.4 1.1a8 8 0 0 1-.1 1.8Z"/></svg>Settings</button></nav>
+    <button class="theme-btn" id="themeToggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20.5 15.5A8.5 8.5 0 0 1 8.5 3.5 8.5 8.5 0 1 0 20.5 15.5Z"/></svg><span>Switch appearance</span></button>
+    <div class="profile"><div class="avatar">IN</div><div><strong>Inan</strong><small>Personal workspace</small></div></div>
+  </div>
+</aside>
+<nav class="mobile-nav" aria-label="Mobile navigation">
+ <button class="active" data-page="dashboard" aria-label="Dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="8" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="15" width="7" height="6" rx="1"/></svg><span>Home</span></button>
+ <button data-page="calendar" aria-label="Calendar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg><span>Calendar</span></button>
+ <button data-page="cycles" aria-label="My cycles"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M5.6 9A7 7 0 0 1 18 6l2 6M4 12l2 6a7 7 0 0 0 12.4-3"/></svg><span>Cycles</span></button>
+ <button data-page="routines" aria-label="Weekly routines"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 5h16M4 12h16M4 19h16"/></svg><span>Routines</span></button>
+ <button data-page="analytics" aria-label="Analytics"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 19V5m0 14h17"/><path d="m7 15 4-4 3 2 6-7"/></svg><span>Insights</span></button>
+ <button data-page="settings" aria-label="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="3"/><path d="M19 13.5v-3l-2-.7-.7-1.2.7-2-2.5-1.5-1.5 1.5h-1.5L10 5 7.5 6.5l.7 2-.7 1.2-2 .7v3l2 .7.7 1.2-.7 2 2.5 1.5 1.5-1.5h1.5l1.5 1.5 2.5-1.5-.7-2 .7-1.2z"/></svg><span>Settings</span></button>
+</nav>
+<main class="main">
+<header class="topbar">
+ <div class="topbar-left"><button class="icon-btn mobile-menu" id="mobileMenu" aria-label="Open navigation" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button><div><div class="eyebrow" id="eyebrow">Tuesday, 10 November 2026</div><h1 class="page-title" id="pageTitle">Your study rhythm</h1></div></div>
+ <div class="top-actions"><span class="date-pill">Tuesday · 10 Nov 2026</span><button class="btn primary" id="headerAdd">＋ New schedule</button></div>
+</header>
+
+<section class="page active" id="page-dashboard">
+ <div class="dashboard-grid">
+  <div>
+   <div class="section-head"><div><h2>Today's activities</h2><p>Check in when you're ready. Unconfirmed is not a missed day.</p></div><span class="mini-label" id="todayCount">3 scheduled</span></div>
+   <div class="today-list" id="todayActivities"></div>
+   <div class="subsection">
+    <div class="section-head"><div><h2>Active cycles</h2><p>Progress moves only when a day is confirmed complete.</p></div><button class="btn ghost" data-go="cycles">View all →</button></div>
+    <div id="dashboardCycles"></div>
+   </div>
+  </div>
+  <div class="right-panel">
+   <div>
+    <div class="section-head"><div><h2>This week</h2><p>10–16 November</p></div><button class="btn ghost" data-go="calendar">Calendar →</button></div>
+    <div class="week-strip" id="weekStrip"></div>
+    <div class="note">Dots indicate scheduled activities. Select a day in Calendar to review its check-ins.</div>
+   </div>
+   <div class="subsection">
+    <div class="section-head"><div><h2>Quick actions</h2><p>Keep your system up to date.</p></div></div>
+    <div class="quick-actions">
+     <button class="btn" data-modal="cycle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 5v14M5 12h14"/></svg>Create cycle</button>
+     <button class="btn" data-modal="routine"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4m8-4v4M3 9h18"/></svg>Add routine</button>
+     <button class="btn" data-go="calendar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4m8-4v4"/></svg>View calendar</button>
+     <button class="btn" data-go="analytics"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 19V5m0 14h17M7 15l4-4 3 2 6-7"/></svg>See insights</button>
+    </div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section class="page" id="page-calendar">
+ <div class="toolbar"><div class="tabs" id="calendarTabs"><button class="active" data-view="month">Month</button><button data-view="week">Week</button></div><div style="display:flex;gap:6px;align-items:center"><button class="btn" id="todayBtn">Today</button><button class="icon-btn" id="prevMonth" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m15 18-6-6 6-6"/></svg></button><button class="icon-btn" id="nextMonth" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m9 18 6-6-6-6"/></svg></button></div></div>
+ <div class="calendar-wrap"><div class="cal-head"><strong id="calMonth">November 2026</strong><span class="mini-label">Select a date</span></div><div class="month-grid" id="calendarGrid"></div></div>
+ <div class="selected-detail" id="calendarDetail"></div>
+</section>
+
+<section class="page" id="page-cycles">
+ <div class="toolbar"><div><div class="mini-label">Completion-based scheduling</div><p class="note" style="margin:4px 0 0">The next subject begins after the target number of confirmed completions—not after a number of calendar days.</p></div><button class="btn primary" data-modal="cycle">＋ Create cycle</button></div>
+ <div class="entity-list" id="cycleList"></div>
+</section>
+
+<section class="page" id="page-routines">
+ <div class="toolbar"><div><div class="mini-label">Fixed weekday scheduling</div><p class="note" style="margin:4px 0 0">Weekly routines run independently of your completion-based cycles.</p></div><button class="btn primary" data-modal="routine">＋ Add routine</button></div>
+ <div class="entity-list" id="routineList"></div>
+</section>
+
+<section class="page" id="page-analytics">
+ <div class="analytics-grid">
+  <div class="metric"><div class="label">Confirmed this month</div><strong id="metricCompleted">18</strong><small>Across all schedules</small></div>
+  <div class="metric"><div class="label">Completion rate</div><strong id="metricRate">76%</strong><small>Of activities with a final status</small></div>
+  <div class="metric"><div class="label">Current cycle streak</div><strong id="metricStreak">4 days</strong><small>Confirmed study days</small></div>
+ </div>
+ <div class="chart-panel"><div class="section-head"><div><h3>Activity over the last 7 weeks</h3><p class="note" style="margin:3px 0 0">Confirmed activity check-ins</p></div><span class="mini-label">Weekly</span></div><div class="chart" id="analyticsChart"></div></div>
+ <div class="section-head"><div><h2>Recent activity</h2><p>Your latest check-ins</p></div></div>
+ <div class="calendar-wrap" style="padding:0 10px"><table class="history"><thead><tr><th>Activity</th><th>Date</th><th>Schedule</th><th>Status</th></tr></thead><tbody id="historyRows"></tbody></table></div>
+</section>
+
+<section class="page" id="page-settings">
+ <div class="settings-layout">
+  <div class="settings-nav"><button class="active" data-setting="profile">Profile</button><button data-setting="appearance">Appearance</button><button data-setting="notifications">Notifications</button><button data-setting="preferences">Preferences</button><button data-setting="data">Data</button></div>
+  <div id="settingsContent"></div>
+ </div>
+</section>
+</main>
+</div>
+
+<div class="modal-backdrop" id="modalBackdrop"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal-head"><h2 id="modalTitle">Create cycle</h2><button class="modal-close" id="modalClose" aria-label="Close">×</button></div><div id="modalContent"></div></div></div>
+<div class="toast" id="toast" role="status"></div>
+<script>
+const today = new Date(2026,10,10); // Prototype date, consistent with sample data.
+const dayNames=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const fullDays=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const defaultState={
+ cycles:[{id:1,name:'Study Rotation',items:[{name:'Physics',target:10,done:7},{name:'Chemistry',target:10,done:0}],current:0,paused:false}],
+ routines:[{id:2,name:'Academic Routine',items:[{name:'Biology',days:[0,1,2,3,4]},{name:'ICT',days:[5,6]}]}],
+ statuses:{'2026-11-10|Physics':'completed','2026-11-10|Biology':'unconfirmed','2026-11-10|ICT':'not-done','2026-11-09|Physics':'completed','2026-11-08|Biology':'completed','2026-11-07|ICT':'completed','2026-11-06|ICT':'unconfirmed','2026-11-05|Biology':'completed','2026-11-04|Physics':'completed'},
+ settings:{name:'Inan',timezone:'Asia/Dhaka',notifications:true,compact:false}
+};
+let state;
+try{state=JSON.parse(localStorage.getItem('cycle-prototype-state'))||structuredClone(defaultState)}catch(e){state=JSON.parse(JSON.stringify(defaultState))}
+let selectedDate=new Date(today),calDate=new Date(today),calView='month',activeSetting='profile';
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const keyDate=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+const save=()=>localStorage.setItem('cycle-prototype-state',JSON.stringify(state));
+const fmt=d=>d.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+const allActivitiesForDate=d=>{
+ const key=keyDate(d),dow=d.getDay(),items=[];
+ state.cycles.filter(c=>!c.paused).forEach(c=>{const it=c.items[c.current];if(it)items.push({name:it.name,type:'Cycle',cycle:c.id})});
+ state.routines.forEach(r=>r.items.forEach(it=>{if(it.days.includes(dow))items.push({name:it.name,type:'Weekly routine',routine:r.id})}));
+ return items.map(a=>({...a,status:state.statuses[`${key}|${a.name}`]||'unconfirmed'}));
+};
+function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2100)}
+function statusClass(s){return s==='completed'?'completed':s==='not-done'?'not-done':'unconfirmed'}
+function statusLabel(s){return s==='not-done'?'Not done':s[0].toUpperCase()+s.slice(1)}
+function statusSelect(a,d){return `<select class="status ${statusClass(a.status)}" data-status="${esc(a.name)}" data-date="${keyDate(d)}" aria-label="Status for ${esc(a.name)}"><option value="unconfirmed" ${a.status==='unconfirmed'?'selected':''}>Unconfirmed</option><option value="completed" ${a.status==='completed'?'selected':''}>Completed</option><option value="not-done" ${a.status==='not-done'?'selected':''}>Not done</option></select>`}
+function renderToday(){
+ const items=allActivitiesForDate(today);$('#todayCount').textContent=`${items.length} scheduled`;
+ $('#todayActivities').innerHTML=items.length?items.map(a=>`<div class="activity"><div class="activity-bar ${a.type==='Weekly routine'?'weekly':''} ${a.status==='unconfirmed'?'pending':''}"></div><div><div class="activity-name">${esc(a.name)}</div><div class="activity-meta">${a.type} · ${a.type==='Cycle'?'Completion-based':'Fixed weekday'}</div></div>${statusSelect(a,today)}</div>`).join(''):`<div class="empty">Nothing scheduled today. Enjoy the space, or add a schedule.</div>`;
+ $('#todayActivities').querySelectorAll('[data-status]').forEach(el=>el.addEventListener('change',()=>updateStatus(el)));
+}
+function renderCycles(){
+ const html=state.cycles.map(c=>{const item=c.items[c.current],next=c.items[(c.current+1)%c.items.length],pct=item?Math.round(item.done/item.target*100):0;return `<div class="entity"><div><h3>${esc(c.name)} ${c.paused?'<span class="mini-label">· Paused</span>':''}</h3><p>${item?`Current: <strong>${esc(item.name)}</strong> · Next: ${esc(next?.name||'—')}`:'No activities yet'}</p></div><div class="entity-progress"><div class="cycle-top"><span class="mini-label">${item?`${item.done} / ${item.target} confirmed days`:''}</span><span class="cycle-count">${pct}%</span></div><div class="progress"><span style="width:${pct}%"></span></div></div><div class="entity-actions"><button class="btn" data-edit-cycle="${c.id}">Edit</button><button class="btn" data-pause="${c.id}">${c.paused?'Resume':'Pause'}</button><button class="btn ghost danger" data-archive="${c.id}">Archive</button></div></div>`}).join('');
+ $('#cycleList').innerHTML=html||'<div class="empty">No cycles yet. Create a cycle to rotate through activities based on confirmed completions.</div>';
+ $('#dashboardCycles').innerHTML=state.cycles.length?state.cycles.map(c=>{let it=c.items[c.current],pct=it?Math.round(it.done/it.target*100):0;return `<div class="cycle-row"><div class="cycle-top"><span class="cycle-title">${esc(c.name)} ${c.paused?'<span class="mini-label">· Paused</span>':''}</span><span class="cycle-count">${it?it.done+' / '+it.target+' days':''}</span></div><div class="progress"><span style="width:${pct}%"></span></div><div class="cycle-foot"><span>${it?esc(it.name)+' · '+pct+'% complete':'No current activity'}</span><strong>Next: ${esc(c.items[(c.current+1)%c.items.length]?.name||'—')}</strong></div></div>`}).join(''):'<div class="empty">Your cycles will appear here.</div>';
+ $('#cycleList').querySelectorAll('[data-edit-cycle]').forEach(b=>b.onclick=()=>openModal('cycle',Number(b.dataset.editCycle)));
+ $('#cycleList').querySelectorAll('[data-pause]').forEach(b=>b.onclick=()=>{let c=state.cycles.find(x=>x.id==b.dataset.pause);c.paused=!c.paused;save();render();toast(c.paused?'Cycle paused':'Cycle resumed')});
+ $('#cycleList').querySelectorAll('[data-archive]').forEach(b=>b.onclick=()=>{if(confirm('Archive this cycle?')){state.cycles=state.cycles.filter(x=>x.id!=b.dataset.archive);save();render();toast('Cycle archived')}});
+}
+function renderRoutines(){
+ $('#routineList').innerHTML=state.routines.map(r=>`<div class="entity"><div><h3>${esc(r.name)}</h3><p>${r.items.map(x=>esc(x.name)).join(' · ')}</p><div class="routine-days">${dayNames.map((d,i)=>`<span class="weekday-pill ${r.items.some(x=>x.days.includes(i))?'on':''}">${d}</span>`).join('')}</div></div><div class="entity-progress"><span class="mini-label">${r.items.length} activities · Weekly routine</span><p class="note">Repeats every week on assigned days.</p></div><div class="entity-actions"><button class="btn" data-edit-routine="${r.id}">Edit</button><button class="btn ghost danger" data-delete-routine="${r.id}">Remove</button></div></div>`).join('')||'<div class="empty">No weekly routines yet. Add one to assign activities to fixed weekdays.</div>';
+ $('#routineList').querySelectorAll('[data-edit-routine]').forEach(b=>b.onclick=()=>openModal('routine',Number(b.dataset.editRoutine)));
+ $('#routineList').querySelectorAll('[data-delete-routine]').forEach(b=>b.onclick=()=>{if(confirm('Remove this routine?')){state.routines=state.routines.filter(x=>x.id!=b.dataset.deleteRoutine);save();render();toast('Routine removed')}});
+}
+function renderWeek(){
+ const start=new Date(today);start.setDate(today.getDate()-today.getDay());$('#weekStrip').innerHTML=Array.from({length:7},(_,i)=>{let d=new Date(start);d.setDate(start.getDate()+i);let a=allActivitiesForDate(d);return `<div class="day ${keyDate(d)===keyDate(today)?'today':''}"><div class="dow">${dayNames[i]}</div><div class="num">${d.getDate()}</div><div class="dots">${a.slice(0,3).map(x=>`<i class="dot ${x.status==='unconfirmed'?'pending':x.status==='not-done'?'red':''}"></i>`).join('')}</div></div>`}).join('');
+}
+function renderCalendar(){
+ const y=calDate.getFullYear(),m=calDate.getMonth();$('#calMonth').textContent=calDate.toLocaleDateString('en-US',{month:'long',year:'numeric'});
+ const start=new Date(y,m,1),offset=start.getDay(),days=new Date(y,m+1,0).getDate();
+ let cells=[];for(let i=0;i<42;i++){let n=i-offset+1,d=new Date(y,m,n),inMonth=n>0&&n<=days,a=allActivitiesForDate(d);cells.push(`<div class="date-cell ${!inMonth?'muted':''} ${keyDate(d)===keyDate(selectedDate)?'selected':''} ${keyDate(d)===keyDate(today)?'today':''}" data-date="${keyDate(d)}"><div class="date-num">${d.getDate()}</div>${a.slice(0,2).map(x=>`<span class="event-chip ${x.status==='unconfirmed'?'pending':x.status==='not-done'?'red':''}">${esc(x.name)}</span>`).join('')}${a.length>2?`<span class="mini-label">+${a.length-2}</span>`:''}</div>`)}
+ $('#calendarGrid').innerHTML=dayNames.map(x=>`<div class="weekday">${x}</div>`).join('')+cells.join('');
+ $('#calendarGrid').querySelectorAll('[data-date]').forEach(el=>el.onclick=()=>{selectedDate=new Date(el.dataset.date+'T12:00:00');renderCalendar()});
+ let items=allActivitiesForDate(selectedDate);$('#calendarDetail').innerHTML=`<h3>${fmt(selectedDate)}</h3>${items.length?items.map(a=>`<div class="activity"><div class="activity-bar ${a.type==='Weekly routine'?'weekly':''} ${a.status==='unconfirmed'?'pending':''}"></div><div><div class="activity-name">${esc(a.name)}</div><div class="activity-meta">${a.type}</div></div>${statusSelect(a,selectedDate)}</div>`).join(''):'<div class="empty">No activities scheduled for this date.</div>'}`;
+ $('#calendarDetail').querySelectorAll('[data-status]').forEach(el=>el.addEventListener('change',()=>updateStatus(el)));
+}
+function renderAnalytics(){
+ let vals=[9,12,8,14,11,16,13];$('#analyticsChart').innerHTML=vals.map((v,i)=>`<div class="bar-col"><div class="bar" style="height:${v/18*100}%"></div><span>${['Sep 28','Oct 5','Oct 12','Oct 19','Oct 26','Nov 2','Nov 9'][i]}</span></div>`).join('');
+ let statuses=Object.values(state.statuses),done=statuses.filter(x=>x==='completed').length,final=statuses.filter(x=>x!=='unconfirmed').length;
+ $('#metricCompleted').textContent=done+11;$('#metricRate').textContent=(final?Math.round(done/final*100):0)+'%';$('#metricStreak').textContent='4 days';
+ let rows=Object.entries(state.statuses).sort((a,b)=>b[0].localeCompare(a[0])).slice(0,8);
+ $('#historyRows').innerHTML=rows.map(([k,s])=>{let [date,name]=k.split('|');let typ=state.routines.some(r=>r.items.some(x=>x.name===name))?'Weekly routine':'Cycle';return `<tr><td><strong>${esc(name)}</strong></td><td>${new Date(date+'T12:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short'})}</td><td>${typ}</td><td><span class="status ${statusClass(s)}" style="display:inline-block;min-width:0">${statusLabel(s)}</span></td></tr>`}).join('');
+}
+function renderSettings(){
+ const c=$('#settingsContent');let sections={
+ profile:`<div class="settings-section"><h3>Profile</h3><p>Basic details for your personal workspace.</p><div class="field"><label>Display name</label><input id="profileName" value="${esc(state.settings.name)}"></div><div class="field"><label>Workspace</label><input value="Personal workspace" disabled></div><button class="btn primary" id="saveProfile">Save changes</button></div>`,
+ appearance:`<div class="settings-section"><h3>Appearance</h3><p>Choose how Cycle looks on this device.</p><div class="switch-row">Use dark appearance <button class="switch ${document.documentElement.dataset.theme==='dark'?'on':''}" id="appearanceSwitch"></button></div><div class="switch-row">Compact layout <button class="switch ${state.settings.compact?'on':''}" id="compactSwitch"></button></div></div>`,
+ notifications:`<div class="settings-section"><h3>Notifications</h3><p>Gentle reminders for scheduled activities.</p><div class="switch-row">Activity reminders <button class="switch ${state.settings.notifications?'on':''}" id="notificationSwitch"></button></div><p class="note">Notifications are a prototype preference; browser notifications are not sent.</p></div>`,
+ preferences:`<div class="settings-section"><h3>Preferences</h3><p>Regional settings for dates and scheduling.</p><div class="field"><label>Timezone</label><select id="timezone"><option ${state.settings.timezone==='Asia/Dhaka'?'selected':''}>Asia/Dhaka</option><option>Asia/Kolkata</option><option>UTC</option></select></div><div class="field"><label>Week starts on</label><select><option>Sunday</option><option>Monday</option></select></div><button class="btn primary" id="saveTimezone">Save preferences</button></div>`,
+ data:`<div class="settings-section"><h3>Local data</h3><p>Your prototype schedules and check-ins are stored in this browser using localStorage.</p><button class="btn" id="exportData">Export data</button> <button class="btn danger" id="resetData">Reset prototype data</button></div>`
+ };
+ c.innerHTML=sections[activeSetting];
+ const bind=(id,fn)=>{let el=document.getElementById(id);if(el)el.onclick=fn};
+ bind('saveProfile',()=>{state.settings.name=$('#profileName').value.trim()||'Inan';save();toast('Profile updated')});
+ bind('appearanceSwitch',()=>toggleTheme());
+ bind('compactSwitch',()=>{state.settings.compact=!state.settings.compact;save();renderSettings()});
+ bind('notificationSwitch',()=>{state.settings.notifications=!state.settings.notifications;save();renderSettings()});
+ bind('saveTimezone',()=>{state.settings.timezone=$('#timezone').value;save();toast('Preferences saved')});
+ bind('exportData',()=>{let blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='cycle-data.json';a.click();URL.revokeObjectURL(a.href);toast('Data export prepared')});
+ bind('resetData',()=>{if(confirm('Reset all prototype data to the original sample?')){state=JSON.parse(JSON.stringify(defaultState));save();render();renderSettings();toast('Prototype reset')}});
+}
+function updateStatus(el){
+ const d=el.dataset.date,name=el.dataset.status,old=state.statuses[`${d}|${name}`],val=el.value;state.statuses[`${d}|${name}`]=val;
+ // A cycle advances only on a transition into completed, never on elapsed calendar time.
+ if(val==='completed'&&old!=='completed'){
+  const date=new Date(d+'T12:00:00'),a=allActivitiesForDate(date).find(x=>x.name===name&&x.type==='Cycle');
+  if(a){let c=state.cycles.find(x=>x.id===a.cycle),it=c?.items[c.current];if(it){it.done=Math.min(it.target,it.done+1);if(it.done>=it.target){it.done=0;c.current=(c.current+1)%c.items.length;toast(`${name} target reached. ${c.items[c.current].name} is next.`)}}}
+ }
+ save();render();if($('#page-calendar').classList.contains('active'))renderCalendar();
+}
+function toggleTheme(){document.documentElement.dataset.theme=document.documentElement.dataset.theme==='dark'?'':'dark';localStorage.setItem('cycle-theme',document.documentElement.dataset.theme);if($('#page-settings').classList.contains('active'))renderSettings()}
+function navigate(page){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));$('#page-'+page).classList.add('active');document.querySelectorAll('[data-page]').forEach(x=>x.classList.toggle('active',x.dataset.page===page));let titles={dashboard:'Your study rhythm',calendar:'Calendar',cycles:'My cycles',routines:'Weekly routines',analytics:'Analytics',settings:'Settings'};$('#pageTitle').textContent=titles[page];$('#eyebrow').textContent=page==='dashboard'?'Tuesday, 10 November 2026':'Your workspace';$('#sidebar').classList.remove('open');if(page==='settings')renderSettings()}
+function render(){renderToday();renderCycles();renderRoutines();renderWeek();renderCalendar();renderAnalytics()}
+function openModal(type,id=null){
+ const backdrop=$('#modalBackdrop'),content=$('#modalContent');backdrop.classList.add('open');let existing=type==='cycle'?state.cycles.find(x=>x.id===id):state.routines.find(x=>x.id===id);
+ if(type==='cycle'){
+  $('#modalTitle').textContent=existing?'Edit cycle':'Create cycle';
+  let items=existing?existing.items:[{name:'Physics',target:10},{name:'Chemistry',target:10}];
+  content.innerHTML=`<div class="modal-field"><label>Cycle name</label><input id="cycleName" value="${esc(existing?.name||'Study Rotation')}" placeholder="e.g. Study Rotation"></div><div class="modal-field"><label>Activities and completion targets</label><div class="sequence-editor" id="sequenceEditor">${items.map((it,i)=>`<div class="sequence-item"><input data-item-name value="${esc(it.name)}" placeholder="Activity name"><input data-item-target type="number" min="1" max="365" value="${it.target}" style="width:85px" aria-label="Target days"><button type="button" data-remove-item aria-label="Remove activity">×</button></div>`).join('')}</div><button class="btn" id="addSequenceItem" style="margin-top:9px">＋ Add activity</button></div><div class="note">Each target counts confirmed completions. Unconfirmed and not-done check-ins do not move the cycle.</div><div class="modal-actions"><button class="btn" data-cancel>Cancel</button><button class="btn primary" id="saveCycle">${existing?'Save changes':'Create cycle'}</button></div>`;
+  $('#addSequenceItem').onclick=()=>addSequenceItem();
+  content.querySelectorAll('[data-remove-item]').forEach(b=>b.onclick=()=>b.parentElement.remove());
+  $('#saveCycle').onclick=()=>{let its=[...content.querySelectorAll('.sequence-item')].map(row=>({name:row.querySelector('[data-item-name]').value.trim(),target:Math.max(1,Number(row.querySelector('[data-item-target]').value)||1),done:0})).filter(x=>x.name);if(its.length<2){toast('Add at least two activities');return}let name=$('#cycleName').value.trim()||'Untitled cycle';if(existing){existing.name=name;existing.items=its;existing.current=Math.min(existing.current,its.length-1)}else state.cycles.push({id:Date.now(),name,items:its,current:0,paused:false});save();closeModal();render();toast(existing?'Cycle updated':'Cycle created')};
+ }else{
+  $('#modalTitle').textContent=existing?'Edit routine':'Add weekly routine';
+  let items=existing?existing.items:[{name:'Biology',days:[0,1,2,3,4]},{name:'ICT',days:[5,6]}];
+  content.innerHTML=`<div class="modal-field"><label>Routine name</label><input id="routineName" value="${esc(existing?.name||'Academic Routine')}" placeholder="e.g. Academic Routine"></div><div class="modal-field"><label>Activities and weekdays</label><div class="sequence-editor" id="routineEditor">${items.map(it=>routineItemHtml(it)).join('')}</div><button class="btn" id="addRoutineItem" style="margin-top:9px">＋ Add activity</button></div><div class="note">Weekly routines repeat on their selected weekdays and do not affect cycle progress.</div><div class="modal-actions"><button class="btn" data-cancel>Cancel</button><button class="btn primary" id="saveRoutine">${existing?'Save changes':'Add routine'}</button></div>`;
+  $('#addRoutineItem').onclick=()=>{$('#routineEditor').insertAdjacentHTML('beforeend',routineItemHtml({name:'',days:[]}));bindRoutineRemove()};
+  bindRoutineRemove();
+  $('#saveRoutine').onclick=()=>{let its=[...content.querySelectorAll('.routine-item')].map(row=>({name:row.querySelector('[data-routine-name]').value.trim(),days:[...row.querySelectorAll('input[type=checkbox]:checked')].map(x=>Number(x.value))})).filter(x=>x.name&&x.days.length);if(!its.length){toast('Add an activity and choose at least one day');return}let name=$('#routineName').value.trim()||'Untitled routine';if(existing){existing.name=name;existing.items=its}else state.routines.push({id:Date.now(),name,items:its});save();closeModal();render();toast(existing?'Routine updated':'Routine added')};
+ }
+ content.querySelectorAll('[data-cancel]').forEach(b=>b.onclick=closeModal);
+}
+function routineItemHtml(it){return `<div class="routine-item" style="border:1px solid var(--line);padding:10px;border-radius:7px;margin-bottom:8px"><div class="sequence-item"><input data-routine-name value="${esc(it.name)}" placeholder="Activity name"><button type="button" data-remove-routine aria-label="Remove activity">×</button></div><div class="checks" style="margin-top:9px">${dayNames.map((d,i)=>`<label class="check-day"><input type="checkbox" value="${i}" ${it.days.includes(i)?'checked':''}>${d}</label>`).join('')}</div></div>`}
+function bindRoutineRemove(){$('#routineEditor').querySelectorAll('[data-remove-routine]').forEach(b=>b.onclick=()=>b.closest('.routine-item').remove())}
+function addSequenceItem(){$('#sequenceEditor').insertAdjacentHTML('beforeend',`<div class="sequence-item"><input data-item-name placeholder="Activity name"><input data-item-target type="number" min="1" value="10" style="width:85px" aria-label="Target days"><button type="button" data-remove-item>×</button></div>`);$('#sequenceEditor').lastElementChild.querySelector('[data-remove-item]').onclick=e=>e.target.parentElement.remove()}
+function closeModal(){$('#modalBackdrop').classList.remove('open')}
+document.querySelectorAll('[data-page]').forEach(b=>b.onclick=()=>navigate(b.dataset.page));
+document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>navigate(b.dataset.go));
+document.querySelectorAll('[data-modal]').forEach(b=>b.onclick=()=>openModal(b.dataset.modal));
+$('#headerAdd').onclick=()=>openModal('cycle');$('#modalClose').onclick=closeModal;$('#modalBackdrop').onclick=e=>{if(e.target===$('#modalBackdrop'))closeModal()};
+$('#themeToggle').onclick=toggleTheme;$('#mobileMenu').onclick=()=>$('#sidebar').classList.toggle('open');
+$('#calendarTabs').querySelectorAll('button').forEach(b=>b.onclick=()=>{calView=b.dataset.view;$('#calendarTabs').querySelectorAll('button').forEach(x=>x.classList.toggle('active',x===b));toast(calView==='week'?'Week selection is active':'Month selection is active')});
+$('#prevMonth').onclick=()=>{calDate.setMonth(calDate.getMonth()-1);renderCalendar()};$('#nextMonth').onclick=()=>{calDate.setMonth(calDate.getMonth()+1);renderCalendar()};$('#todayBtn').onclick=()=>{calDate=new Date(today);selectedDate=new Date(today);renderCalendar()};
+document.querySelectorAll('[data-setting]').forEach(b=>b.onclick=()=>{activeSetting=b.dataset.setting;document.querySelectorAll('[data-setting]').forEach(x=>x.classList.toggle('active',x===b));renderSettings()});
+const savedTheme=localStorage.getItem('cycle-theme');if(savedTheme)document.documentElement.dataset.theme=savedTheme;
+render();
+</script>
+</body>
+</html>

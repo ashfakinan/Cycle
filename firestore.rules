@@ -1,0 +1,119 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Default deny all unknown collections
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    // Connection test document
+    match /test/connection {
+      allow read: if isSignedIn();
+    }
+
+    // User profile and preferences
+    match /users/{userId} {
+      allow get: if isOwner(userId);
+      allow list: if isOwner(userId);
+      allow create: if isOwner(userId)
+        && isValidId(userId)
+        && incoming().userId == userId
+        && incoming().displayName is string && incoming().displayName.size() <= 100
+        && incoming().timezone is string && incoming().timezone.size() <= 50
+        && incoming().theme in ['light', 'dark'];
+      allow update: if isOwner(userId)
+        && incoming().userId == userId
+        && incoming().displayName is string && incoming().displayName.size() <= 100
+        && incoming().timezone is string && incoming().timezone.size() <= 50
+        && incoming().theme in ['light', 'dark'];
+      allow delete: if isOwner(userId);
+
+      // User Cycles
+      match /cycles/{cycleId} {
+        allow get, list: if isOwner(userId);
+        allow create: if isOwner(userId)
+          && isValidId(cycleId)
+          && incoming().id == cycleId
+          && incoming().userId == userId
+          && incoming().name is string && incoming().name.size() > 0 && incoming().name.size() <= 100
+          && incoming().status in ['active', 'paused', 'archived']
+          && incoming().repeat is bool
+          && incoming().activities is list
+          && incoming().activities.size() <= 30;
+        allow update: if isOwner(userId)
+          && incoming().id == cycleId
+          && incoming().userId == userId
+          && incoming().name is string && incoming().name.size() > 0 && incoming().name.size() <= 100
+          && incoming().status in ['active', 'paused', 'archived']
+          && incoming().repeat is bool
+          && incoming().activities is list
+          && incoming().activities.size() <= 30;
+        allow delete: if isOwner(userId);
+      }
+
+      // User Weekly Routines
+      match /routines/{routineId} {
+        allow get, list: if isOwner(userId);
+        allow create: if isOwner(userId)
+          && isValidId(routineId)
+          && incoming().id == routineId
+          && incoming().userId == userId
+          && incoming().name is string && incoming().name.size() > 0 && incoming().name.size() <= 100
+          && incoming().status in ['active', 'paused', 'archived']
+          && incoming().activities is list
+          && incoming().activities.size() <= 30;
+        allow update: if isOwner(userId)
+          && incoming().id == routineId
+          && incoming().userId == userId
+          && incoming().name is string && incoming().name.size() > 0 && incoming().name.size() <= 100
+          && incoming().status in ['active', 'paused', 'archived']
+          && incoming().activities is list
+          && incoming().activities.size() <= 30;
+        allow delete: if isOwner(userId);
+      }
+
+      // User Activity Check-in Records
+      match /records/{recordId} {
+        allow get, list: if isOwner(userId);
+        allow create: if isOwner(userId)
+          && isValidId(recordId)
+          && incoming().id == recordId
+          && incoming().userId == userId
+          && incoming().date is string && incoming().date.size() <= 20
+          && incoming().type in ['cycle', 'routine']
+          && incoming().scheduleId is string && incoming().scheduleId.size() <= 128
+          && incoming().activityId is string && incoming().activityId.size() <= 128
+          && incoming().activityName is string && incoming().activityName.size() <= 100
+          && incoming().status in ['completed', 'not_done', 'unconfirmed'];
+        allow update: if isOwner(userId)
+          && incoming().id == recordId
+          && incoming().userId == userId
+          && incoming().date is string && incoming().date.size() <= 20
+          && incoming().type in ['cycle', 'routine']
+          && incoming().status in ['completed', 'not_done', 'unconfirmed'];
+        allow delete: if isOwner(userId);
+      }
+    }
+  }
+}
