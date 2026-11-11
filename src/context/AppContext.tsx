@@ -206,6 +206,20 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   useEffect(() => {
     if (!user) return;
     const uid = user.uid;
+
+    // Immediately prime UI from local cache to avoid any loading flicker or network wait
+    const cachedProfile = getLocalData<UserProfile | null>(`cycle_app_profile_v1_${uid}`, null);
+    if (cachedProfile) setProfile(cachedProfile);
+
+    const cachedCycles = getLocalData<Cycle[]>(`cycle_app_cycles_v1_${uid}`, []);
+    if (cachedCycles.length > 0) setCycles(cachedCycles);
+
+    const cachedRoutines = getLocalData<WeeklyRoutine[]>(`cycle_app_routines_v1_${uid}`, []);
+    if (cachedRoutines.length > 0) setRoutines(cachedRoutines);
+
+    const cachedRecords = getLocalData<ActivityRecord[]>(`cycle_app_records_v1_${uid}`, []);
+    if (cachedRecords.length > 0) setRecords(cachedRecords);
+
     setSyncState('syncing');
 
     let isSubscribed = true;
