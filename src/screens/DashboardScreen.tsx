@@ -14,6 +14,7 @@ import {
 } from '../lib/dateUtils';
 import { StatusControl } from '../components/StatusControl';
 import { InstructionsGuide } from '../components/InstructionsGuide';
+import { PWAInstallButton } from '../components/PWAInstallButton';
 import {
   RotateCcw,
   CalendarDays,
@@ -433,6 +434,8 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
             <Sparkles className="w-3.5 h-3.5 text-[var(--accent)]" />
             <span>Insights</span>
           </button>
+
+          <PWAInstallButton />
         </div>
       </section>
     </div>

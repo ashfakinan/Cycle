@@ -10,6 +10,7 @@ import {
   Menu,
 } from 'lucide-react';
 import { SyncIndicator } from './SyncIndicator';
+import { PWAInstallButton } from './PWAInstallButton';
 import { formatMediumDate } from '../lib/dateUtils';
 
 export const MobileHeader: React.FC<{
@@ -57,6 +58,7 @@ export const MobileHeader: React.FC<{
             {formatMediumDate(todayStr)}
           </span>
         )}
+        <PWAInstallButton compact />
         <SyncIndicator />
         <button
           type="button"
