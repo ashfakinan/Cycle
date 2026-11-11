@@ -24,6 +24,9 @@ export const SettingsScreen: React.FC = () => {
     user,
     signInWithGoogle,
     signOutUser,
+    setShowAuthModal,
+    setShowGuide,
+    setActiveScreen,
     cycles,
     routines,
     records,
@@ -153,15 +156,15 @@ export const SettingsScreen: React.FC = () => {
         ) : (
           <div className="p-4 rounded-lg bg-[var(--bg-subtle)] border border-[var(--border)] space-y-2.5">
             <div className="text-xs text-[var(--text-2)]">
-              You are currently using <strong>Local Storage</strong>. Sign in with Google to synchronize your cycles, routines, and progress across all your devices in real time.
+              You are currently using <strong>Local Storage</strong>. Create an account or log in to synchronize your cycles, routines, and progress across all your devices in real time.
             </div>
             <button
               type="button"
-              onClick={signInWithGoogle}
+              onClick={() => setShowAuthModal(true)}
               className="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold rounded-md bg-[var(--accent)] text-white hover:bg-[var(--accent-hover)] transition-colors"
             >
               <LogIn className="w-4 h-4" />
-              <span>Sign in with Google</span>
+              <span>Create Account / Log In</span>
             </button>
           </div>
         )}
@@ -327,7 +330,28 @@ export const SettingsScreen: React.FC = () => {
         )}
       </section>
 
-      {/* 5. PWA Installation */}
+      {/* 5. Instructions & Principles */}
+      <section className="p-4 sm:p-5 rounded-xl border border-[var(--border)] bg-[var(--surface)] shadow-xs flex items-center justify-between">
+        <div>
+          <div className="text-xs font-semibold text-[var(--text)]">Instructions & How It Works</div>
+          <div className="text-[11px] text-[var(--text-3)]">
+            Review core principles of Completion Cycles, Weekly Routines, and 3-state check-ins
+          </div>
+        </div>
+
+        <button
+          type="button"
+          onClick={() => {
+            setShowGuide(true);
+            setActiveScreen('dashboard');
+          }}
+          className="px-3 py-1.5 text-xs font-medium rounded-md border border-[var(--border)] bg-[var(--bg)] hover:bg-[var(--bg-hover)] text-[var(--accent)] font-semibold transition-colors"
+        >
+          View Instructions
+        </button>
+      </section>
+
+      {/* 6. PWA Installation */}
       <section className="p-4 sm:p-5 rounded-xl border border-[var(--border)] bg-[var(--surface)] shadow-xs flex items-center justify-between">
         <div>
           <div className="text-xs font-semibold text-[var(--text)]">Install Application</div>

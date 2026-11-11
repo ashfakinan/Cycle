@@ -10,6 +10,7 @@ import { AnalyticsScreen } from './screens/AnalyticsScreen';
 import { SettingsScreen } from './screens/SettingsScreen';
 import { CycleModal } from './components/Modals/CycleModal';
 import { RoutineModal } from './components/Modals/RoutineModal';
+import { AuthModal } from './components/AuthModal';
 import { Cycle, WeeklyRoutine } from './types';
 import { Check, AlertCircle, Info, CloudOff } from 'lucide-react';
 
@@ -21,6 +22,10 @@ const AppContent: React.FC = () => {
     isOnline,
     addOrUpdateCycle,
     addOrUpdateRoutine,
+    user,
+    authLoading,
+    showAuthModal,
+    setShowAuthModal,
   } = useApp();
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -147,6 +152,12 @@ const AppContent: React.FC = () => {
         onClose={() => setIsRoutineModalOpen(false)}
         initialRoutine={editingRoutine}
         onSave={addOrUpdateRoutine}
+      />
+
+      {/* Account Registration & Log In Modal */}
+      <AuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
       />
 
       {/* Toast Notification */}

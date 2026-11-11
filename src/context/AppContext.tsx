@@ -6,7 +6,15 @@ import React, {
   useCallback,
   useRef,
 } from 'react';
-import { User, onAuthStateChanged, signInWithPopup, signOut } from 'firebase/auth';
+import {
+  User,
+  onAuthStateChanged,
+  signInWithPopup,
+  signOut,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile as updateAuthProfile,
+} from 'firebase/auth';
 import confetti from 'canvas-confetti';
 import { auth, googleProvider } from '../lib/firebase';
 import {
@@ -59,6 +67,10 @@ interface AppContextValue {
   activeScreen: 'dashboard' | 'calendar' | 'cycles' | 'routines' | 'analytics' | 'settings';
   toastInfo: ToastInfo | null;
   isOnline: boolean;
+  showAuthModal: boolean;
+  showGuide: boolean;
+  setShowAuthModal: (open: boolean) => void;
+  setShowGuide: (open: boolean) => void;
   setSelectedDate: (date: string) => void;
   setActiveScreen: (screen: 'dashboard' | 'calendar' | 'cycles' | 'routines' | 'analytics' | 'settings') => void;
   updateActivityStatus: (
@@ -80,6 +92,8 @@ interface AppContextValue {
   updateProfile: (updates: Partial<UserProfile>) => Promise<void>;
   toggleTheme: () => void;
   signInWithGoogle: () => Promise<void>;
+  signInWithEmail: (email: string, pass: string) => Promise<void>;
+  signUpWithEmail: (displayName: string, email: string, pass: string) => Promise<void>;
   signOutUser: () => Promise<void>;
   showToast: (message: string, type?: 'info' | 'done' | 'miss') => void;
   resetAllData: () => Promise<void>;
@@ -120,6 +134,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [records, setRecords] = useState<ActivityRecord[]>(() =>
     getLocalData('cycle_app_guest_records', generateInitialRecords('guest'))
   );
+
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [showGuide, setShowGuide] = useState(() => {
+    return localStorage.getItem('cycle_dismissed_guide') !== 'true';
+  });
 
   const [activeScreen, setActiveScreen] = useState<
     'dashboard' | 'calendar' | 'cycles' | 'routines' | 'analytics' | 'settings'
@@ -244,15 +263,47 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       setSyncState('error');
       const msg = err instanceof Error ? err.message : 'Sign in failed';
       showToast(msg, 'miss');
+      throw err;
     }
   }, [showToast]);
+
+  // Email Sign In
+  const signInWithEmail = useCallback(
+    async (email: string, pass: string) => {
+      setSyncState('syncing');
+      const result = await signInWithEmailAndPassword(auth, email, pass);
+      showToast(`Welcome back, ${result.user.displayName || 'friend'}!`, 'done');
+    },
+    [showToast]
+  );
+
+  // Email Sign Up
+  const signUpWithEmail = useCallback(
+    async (name: string, email: string, pass: string) => {
+      setSyncState('syncing');
+      const result = await createUserWithEmailAndPassword(auth, email, pass);
+      if (name) {
+        try {
+          await updateAuthProfile(result.user, { displayName: name });
+        } catch {
+          // ignore
+        }
+      }
+      await saveUserProfile(result.user.uid, { displayName: name || 'Student' });
+      showToast(`Account created! Welcome, ${name || 'friend'}!`, 'done');
+    },
+    [showToast]
+  );
 
   // Sign out
   const signOutUser = useCallback(async () => {
     try {
       await signOut(auth);
       setUser(null);
-      showToast('Signed out. Local guest mode active.', 'info');
+      setCycles([]);
+      setRoutines([]);
+      setRecords([]);
+      showToast('Signed out. Local session cleared.', 'info');
     } catch (err: unknown) {
       console.error(err);
     }
@@ -561,6 +612,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         activeScreen,
         toastInfo,
         isOnline,
+        showAuthModal,
+        showGuide,
+        setShowAuthModal,
+        setShowGuide,
         setSelectedDate,
         setActiveScreen,
         updateActivityStatus,
@@ -574,6 +629,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         updateProfile,
         toggleTheme,
         signInWithGoogle,
+        signInWithEmail,
+        signUpWithEmail,
         signOutUser,
         showToast,
         resetAllData,

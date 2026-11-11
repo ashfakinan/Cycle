@@ -359,17 +359,23 @@ export const CalendarScreen: React.FC = () => {
         </div>
 
         {selectedDateActivities.length === 0 ? (
-          <div className="py-6 text-center space-y-2">
+          <div className="py-6 px-4 text-center space-y-2.5 bg-[var(--bg)] rounded-lg border border-[var(--border)]">
             <CalendarIcon className="w-6 h-6 mx-auto text-[var(--text-3)]" />
-            <p className="text-xs text-[var(--text-3)]">
-              No scheduled activities for this date.
-            </p>
+            <div className="space-y-1">
+              <p className="text-xs text-[var(--text-2)] font-medium">
+                No scheduled activities for this date.
+              </p>
+              <p className="text-[11px] text-[var(--text-3)] max-w-sm mx-auto">
+                Completed an activity on this date? You can backdate completions without any penalty or calendar pressure.
+              </p>
+            </div>
             <button
               type="button"
               onClick={() => setIsBackdateOpen(true)}
-              className="text-xs font-semibold text-[var(--accent)] hover:underline"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold rounded-md bg-[var(--accent)] text-white hover:bg-[var(--accent-hover)] transition-colors"
             >
-              Record an activity for this date →
+              <Plus className="w-3.5 h-3.5" />
+              <span>Log / Backdate on this Date</span>
             </button>
           </div>
         ) : (

@@ -46,18 +46,38 @@ export const RoutinesScreen: React.FC<RoutinesScreenProps> = ({
 
       {/* Routine Blocks */}
       {routines.length === 0 ? (
-        <div className="border border-dashed border-[var(--border)] rounded-xl p-12 text-center space-y-3 bg-[var(--surface)]">
-          <CalendarDays className="w-8 h-8 mx-auto text-[var(--text-3)] stroke-1" />
-          <h3 className="text-sm font-semibold text-[var(--text)]">No routines created yet</h3>
-          <p className="text-xs text-[var(--text-3)] max-w-sm mx-auto">
-            Create fixed weekly schedules (e.g. Biology on Sunday–Thursday, ICT on Friday–Saturday).
-          </p>
+        <div className="border border-[var(--border)] rounded-xl p-8 sm:p-10 text-center space-y-5 bg-[var(--surface)] shadow-xs">
+          <div className="w-12 h-12 mx-auto rounded-xl bg-[var(--accent-bg)] text-[var(--accent-text)] flex items-center justify-center">
+            <CalendarDays className="w-6 h-6" />
+          </div>
+          <div className="max-w-md mx-auto space-y-1.5">
+            <h3 className="text-base font-bold font-heading text-[var(--text)]">
+              No weekly routines created yet
+            </h3>
+            <p className="text-xs text-[var(--text-2)] leading-relaxed">
+              Weekly routines assign recurring activities to fixed calendar weekdays (Sunday–Saturday) in your local timezone.
+            </p>
+          </div>
+
+          {/* Quick instructions box */}
+          <div className="max-w-lg mx-auto p-4 rounded-lg bg-[var(--bg)] border border-[var(--border)] text-left text-xs space-y-2 text-[var(--text-2)]">
+            <div className="font-semibold text-[var(--text)]">How to set up your weekly routine:</div>
+            <div className="space-y-1.5 pl-1">
+              <div>1. Tap <strong>Create First Routine</strong> below.</div>
+              <div>2. Give it a title (e.g., <em>Academic Week</em> or <em>Exercise Schedule</em>).</div>
+              <div>3. Add activities and tap the day chips (e.g. <em>Biology: S M T W T</em>, <em>ICT: F S</em>).</div>
+              <div>4. Activities appear automatically on their assigned weekdays.</div>
+              <div>5. You can have multiple activities on the same weekday without conflict.</div>
+            </div>
+          </div>
+
           <button
             type="button"
             onClick={onOpenNewRoutine}
-            className="px-4 py-2 text-xs font-semibold rounded-md bg-[var(--accent)] text-white hover:bg-[var(--accent-hover)] transition-colors"
+            className="inline-flex items-center gap-2 px-5 py-2.5 text-xs font-semibold rounded-md bg-[var(--accent)] text-white hover:bg-[var(--accent-hover)] transition-colors shadow-xs"
           >
-            Create First Routine
+            <Plus className="w-4 h-4" />
+            <span>Create First Routine</span>
           </button>
         </div>
       ) : (

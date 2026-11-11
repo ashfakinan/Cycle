@@ -13,6 +13,7 @@ import {
   parseDate,
 } from '../lib/dateUtils';
 import { StatusControl } from '../components/StatusControl';
+import { InstructionsGuide } from '../components/InstructionsGuide';
 import {
   RotateCcw,
   CalendarDays,
@@ -20,6 +21,7 @@ import {
   CheckCircle2,
   Sparkles,
   ArrowRight,
+  BookOpen,
 } from 'lucide-react';
 
 interface DashboardScreenProps {
@@ -41,6 +43,9 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
     updateActivityStatus,
     setActiveScreen,
     setSelectedDate,
+    showGuide,
+    setShowGuide,
+    setShowAuthModal,
   } = useApp();
 
   const displayName = user?.displayName || profile.displayName || 'Student';
@@ -64,10 +69,12 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
     setActiveScreen('calendar');
   };
 
+  const isBrandNew = cycles.length === 0 && routines.length === 0;
+
   return (
     <div className="space-y-8 max-w-4xl">
       {/* Top Greeting */}
-      <div className="flex items-start justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <h1 className="text-xl md:text-2xl font-bold font-heading tracking-tight text-[var(--text)]">
             {greeting}, {displayName}
@@ -77,10 +84,40 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
           </p>
         </div>
 
-        <div className="w-9 h-9 rounded-full bg-[var(--accent-bg)] text-[var(--accent-text)] font-semibold flex items-center justify-center text-sm border border-[var(--border)] shrink-0">
-          {displayName.charAt(0).toUpperCase()}
+        <div className="flex items-center gap-2">
+          {!user && (
+            <button
+              type="button"
+              onClick={() => setShowAuthModal(true)}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-md bg-[var(--accent)] text-white hover:bg-[var(--accent-hover)] transition-colors shadow-2xs"
+            >
+              <span>Create Account / Log In</span>
+            </button>
+          )}
+
+          <button
+            type="button"
+            onClick={() => setShowGuide(!showGuide)}
+            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium rounded-md border border-[var(--border)] bg-[var(--surface)] text-[var(--text-2)] hover:text-[var(--text)] hover:bg-[var(--bg-hover)] transition-colors"
+            title="Read instructions & principles"
+          >
+            <BookOpen className="w-3.5 h-3.5 text-[var(--accent)]" />
+            <span>{showGuide ? 'Hide Guide' : 'Instructions'}</span>
+          </button>
         </div>
       </div>
+
+      {/* Guide Banner for new or inquiring users */}
+      {(showGuide || isBrandNew) && (
+        <InstructionsGuide
+          onOpenNewCycle={onOpenNewCycle}
+          onOpenNewRoutine={onOpenNewRoutine}
+          onClose={() => {
+            setShowGuide(false);
+            localStorage.setItem('cycle_dismissed_guide', 'true');
+          }}
+        />
+      )}
 
       {/* Today's Activities */}
       <section className="space-y-3">
@@ -207,13 +244,18 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
         </div>
 
         {activeCycles.length === 0 ? (
-          <div className="p-4 border border-dashed border-[var(--border)] rounded-xl text-center text-xs text-[var(--text-3)]">
-            No active completion cycles.{' '}
+          <div className="p-5 border border-[var(--border)] rounded-xl text-center space-y-2 bg-[var(--surface)] text-xs text-[var(--text-3)] shadow-xs">
+            <div className="text-[var(--text-2)] font-medium">No active completion cycles</div>
+            <p className="max-w-md mx-auto text-[11.5px] text-[var(--text-3)]">
+              Cycles rotate through activities based on confirmed study days without calendar pressure.
+            </p>
             <button
+              type="button"
               onClick={onOpenNewCycle}
-              className="text-[var(--accent)] font-medium hover:underline"
+              className="mt-1 inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-md bg-[var(--accent)] text-white hover:bg-[var(--accent-hover)] transition-colors"
             >
-              Create one now →
+              <RotateCcw className="w-3.5 h-3.5" />
+              <span>Create Your First Cycle</span>
             </button>
           </div>
         ) : (

@@ -24,7 +24,8 @@ export const Sidebar: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
     profile,
     toggleTheme,
     user,
-    signInWithGoogle,
+    setShowAuthModal,
+    setShowGuide,
   } = useApp();
 
   const navItems = [
@@ -107,6 +108,18 @@ export const Sidebar: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
 
         {/* Bottom actions & user profile */}
         <div className="p-2.5 border-t border-[var(--border)] space-y-1 bg-[var(--bg)]">
+          <button
+            type="button"
+            onClick={() => {
+              setShowGuide(true);
+              setActiveScreen('dashboard');
+              onClose();
+            }}
+            className="w-full flex items-center gap-3 px-3 py-1.5 rounded-md text-xs text-[var(--accent)] hover:bg-[var(--accent-bg)] transition-colors text-left font-medium"
+          >
+            <span>📖 Instructions Guide</span>
+          </button>
+
           <div className="px-2 py-1 flex items-center justify-between">
             <PWAInstallButton compact />
           </div>
@@ -151,11 +164,11 @@ export const Sidebar: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
           ) : (
             <button
               type="button"
-              onClick={signInWithGoogle}
-              className="w-full flex items-center gap-2.5 px-3 py-2 rounded-md bg-[var(--bg-subtle)] hover:bg-[var(--bg-hover)] text-[var(--text)] text-[12.5px] font-medium transition-colors border border-[var(--border)]"
+              onClick={() => setShowAuthModal(true)}
+              className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-md bg-[var(--accent)] text-white hover:bg-[var(--accent-hover)] text-xs font-semibold transition-colors shadow-2xs"
             >
-              <LogIn className="w-4 h-4 text-[var(--accent)]" />
-              <span>Connect Google</span>
+              <LogIn className="w-3.5 h-3.5" />
+              <span>Create Account / Log In</span>
             </button>
           )}
         </div>
